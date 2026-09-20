@@ -1,0 +1,32 @@
+{
+  "name": "attention-first-engineering",
+  "version": "1.0.0",
+  "description": "Day/Week engineering refinement and capacity planning that protects human judgment.",
+  "author": {
+    "name": "Matthew Groff",
+    "url": "https://github.com/mattlgroff"
+  },
+  "homepage": "https://github.com/mattlgroff/attention-first-engineering",
+  "repository": "https://github.com/mattlgroff/attention-first-engineering",
+  "keywords": [
+    "engineering",
+    "planning",
+    "human-judgment",
+    "refinement"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Attention-First Engineering",
+    "shortDescription": "Build fast without undermining human judgment.",
+    "longDescription": "Refine rough requests into coherent Day/Week tickets, resolve product decisions, challenge verification, and plan around human understanding and attention.",
+    "developerName": "Matthew Groff",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive"
+    ],
+    "websiteURL": "https://github.com/mattlgroff/attention-first-engineering",
+    "defaultPrompt": [
+      "Use Attention-First Engineering to refine this work."
+    ]
+  }
+}

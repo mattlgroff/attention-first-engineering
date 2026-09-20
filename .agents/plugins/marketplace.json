@@ -1,0 +1,20 @@
+{
+  "name": "attention-first-engineering",
+  "interface": {
+    "displayName": "Attention-First Engineering"
+  },
+  "plugins": [
+    {
+      "name": "attention-first-engineering",
+      "source": {
+        "source": "local",
+        "path": "./plugins/attention-first-engineering"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

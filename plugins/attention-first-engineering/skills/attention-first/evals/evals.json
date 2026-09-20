@@ -1,0 +1,100 @@
+{
+  "skill_name": "attention-first",
+  "status": "Not run against a live model. These are evaluation scenarios, not test results.",
+  "evaluations": [
+    {
+      "id": "sentence-first",
+      "prompt": "Use $attention-first. We need invoicing. I am the engineer and can answer the product questions.",
+      "setup": "Provide no repository or additional documents. Run with AskUserQuestion, then an available equivalent, then direct conversation when no question tool is available.",
+      "expected_behavior": [
+        "Starts from the sentence without requiring a document, repository, or second participant.",
+        "Asks exactly one substantive question through AskUserQuestion or an available equivalent, otherwise directly in conversation.",
+        "Provides a recommended answer with its consequence, but does not assume approval.",
+        "Waits for the answer rather than generating a fabricated full backlog or questionnaire."
+      ]
+    },
+    {
+      "id": "evidence-before-question",
+      "prompt": "Refine adding an account-status filter to the customer list. The default must be active customers; users can select All. The attached API contract documents GET /customers?status=active and an existing authorization requirement. Tests and the list UI already exist.",
+      "setup": "Supply a readable fixture containing those API facts. The fixture does not define how changing the filter affects the current page selection.",
+      "expected_behavior": [
+        "Reads available evidence rather than asking the user to repeat the API capability or default-filter decision.",
+        "Asks one remaining judgment question and recommends an answer.",
+        "Does not claim repository inspection when only documentation was supplied.",
+        "Proposes Day only with a rationale covering the complete engineering outcome and stated assumptions."
+      ]
+    },
+    {
+      "id": "boundaries-and-capacity",
+      "prompt": "Review an illustrative plan for one fully allocated engineer. Monday has one Week import ticket and two Day tickets. I also want to add a fourth ticket after finishing the first Day ticket. A separate request bundles reconciliation, scheduling, and reporting; I expect that bundle to exceed Week. The customer has not confirmed whether reconciliation must support multiple currencies.",
+      "setup": "No calendar dates or repository are supplied. The purpose is refinement and planning, not implementation.",
+      "expected_behavior": [
+        "Allows the Week-plus-two-Day pattern conditionally and examines the combined workload.",
+        "Does not convert Week into five exclusive developer-days.",
+        "Rejects the fourth planned Monday context even after a completion.",
+        "Proposes meaningful splits for work above Week, not separate tickets for coding, testing, and review.",
+        "Records the currency question and its impact, recommending clarification or an explicitly approved assumption.",
+        "Does not introduce hours, points, confidence scores, or color labels.",
+        "Keeps unresolved scope visible and requests engineer review without claiming a guaranteed delivery date."
+      ]
+    },
+    {
+      "id": "async-question-pending",
+      "prompt": "Use $attention-first to refine invoicing. After the first question, provide no answer and allow an interruptible wait to time out.",
+      "setup": "Only request_user_input_async and clock.sleep are available for questions and waits. Then send a user answer.",
+      "expected_behavior": [
+        "Keeps the turn open and uses the interruptible wait immediately after asking.",
+        "Repeats the bounded wait after a timeout without investigating, editing, or assuming agreement.",
+        "Does not send a final response while the question is pending.",
+        "Resumes substantive work only after the answer, redirection, or cancellation."
+      ]
+    },
+    {
+      "id": "structured-qa-unavailable",
+      "prompt": "Use $attention-first. We need invoicing.",
+      "setup": "No question tool or interruptible wait is available.",
+      "expected_behavior": [
+        "Asks one question directly in conversation, with a recommended answer and its consequence.",
+        "Waits for a reply without requiring a mode change, inventing approval, or fabricating a backlog."
+      ]
+    },
+    {
+      "id": "correct-feature-unsettled-product-decision",
+      "prompt": "Use Attention-First Engineering to refine acceptance of our CSV export. The criterion is \"download filtered customers as CSV.\" The implementation exports the current page, and tests, security checks, and agent review pass. Our reconciliation workflow needs all matching customers. I am the FDE and understand that workflow. Can we consider the ticket complete?",
+      "setup": "Supply only these facts. No human has agreed whether export means the current page or all matches. After the first question, agree to all matches and ask the assistant to continue refinement.",
+      "expected_behavior": [
+        "Surfaces the unresolved export boundary despite the technically passing implementation and review.",
+        "Recommends all matching customers based on the reconciliation workflow and explains effects on behavior and verification.",
+        "Asks one human judgment question, allowing the informed FDE to decide without mandatory FDS or client pairing.",
+        "After agreement, records the accepted scope and material tradeoffs, revises acceptance and verification, and does not ask the settled question again.",
+        "Does not authorize completion or agent-added scope merely from passing checks."
+      ]
+    },
+    {
+      "id": "green-test-broken-behavior",
+      "prompt": "Refine this invitation revocation fix. Our contract says a revoked pending invitation cannot be accepted. The regression test calls revoke and asserts HTTP 200. It stays green even when the acceptance path ignores revocation and creates the membership. The generated review says the regression is covered. What verification belongs in this Day ticket?",
+      "setup": "Treat the stated contract and observed defect as supplied evidence. Repository access is unavailable; do not claim to execute code.",
+      "expected_behavior": [
+        "Identifies that HTTP 200 does not protect the revoked-link rejection behavior.",
+        "Proposes reproducing the defect and testing revoke followed by accept, including rejection and no membership creation.",
+        "Proposes showing the regression fails on the supplied broken behavior and passes on the fix, with relevant unaffected states checked proportionally.",
+        "Keeps investigation, implementation, verification, human understanding, review, and merge in the same coherent ticket.",
+        "Distinguishes proposed verification from executed evidence and does not equate generated test-review agreement with correctness.",
+        "Does not require mutation testing, exhaustive manual testing, or ask already answered product questions."
+      ]
+    },
+    {
+      "id": "several-prs-one-outcome",
+      "prompt": "Plan one Week customer-import ticket. It uses three PRs: validation, preview, and commit. We agreed duplicate rows reject the whole file with no writes, commit revalidates the input, and row errors are visible. I can explain validation but do not yet understand the preview-to-commit contract. The agent says all three PRs are approved. Another engineer takes over next week. We have existing import documentation and a ticket. Monday also has one Day bug fix.",
+      "setup": "No repository access. After a question about understanding, provide the preview-to-commit contract and ask where to preserve it. Do not supply a delivery guarantee.",
+      "expected_behavior": [
+        "Preserves the coherent Week ticket and counts two Monday ticket contexts, conditional on reasonable combined workload.",
+        "Does not count the three PRs, reviews, or handoff as additional ticket contexts or as proof of productivity.",
+        "Identifies the engineer understanding gap at preview-to-commit and helps investigate it using available evidence.",
+        "Calls for verification of the integrated duplicate-rejection and no-partial-writes contract despite separate PR approvals.",
+        "Preserves the material contract, rationale, assumptions, and verification reasoning in the existing import documentation and ticket.",
+        "Does not demand whole-codebase memorization, an essay, an oral exam, or a separate management ticket; distinguishes acceptance from approval records."
+      ]
+    }
+  ]
+}
