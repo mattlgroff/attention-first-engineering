@@ -40,7 +40,7 @@ Keep implementation, tests, and review in one ticket. Generating the endpoint is
 
 The agreed scope includes duplicate handling, authorization, and failure behavior. Existing storage and UI patterns are available. Import mapping configuration and scheduling are outside this outcome.
 
-**Proposed size:** Week, if the engineer can credibly complete and verify this bounded workflow under the planned workload. Several reviewed pull requests can deliver it, using one ticket context on each active day. Do not split it into "frontend," "backend," "tests," and "review" merely to increase ticket count.
+**Proposed size:** Week, if the engineer can credibly complete and verify this bounded workflow under the planned workload. Several reviewed pull requests can deliver it, using one ticket context on each active day. For a full-stack team, keep that outcome intact. A specialist team may instead agree related frontend and backend tickets with clear integration and acceptance boundaries. Keep testing and review within the engineering tickets rather than creating administrative fragments.
 
 ## Split beyond Week
 
@@ -62,7 +62,7 @@ Propose distinct deliverables with their own acceptance boundaries. Check depend
 
 The combination occupies three contexts. Check whether the Week ticket's planned progress and both Day completions are credible together, including their verification requirements and dependencies. Recommend moving a Day ticket when shared constraints make the grouping unrealistic.
 
-Three concurrent Week tickets are also permitted if the engineer agrees that each completion window is credible under that combined workload. Neither pattern guarantees throughput. Completing a Monday ticket does not create permission to plan a fourth Monday context.
+Three concurrent Week tickets are also permitted if the engineer agrees that each completion window is credible under that combined workload. Neither pattern guarantees throughput. Completing a Monday ticket does not free a context that day. A fourth context requires an explicitly agreed capacity change and a credible combined workload; three is the default, not a hard ceiling.
 
 ## Correct code, unsettled product intent
 
@@ -91,3 +91,15 @@ Investigate gaps with the engineer using code, contracts, or supplied documents.
 Once that is resolved, ask if needed: "What decision or constraint must the next engineer understand without reconstructing this entire chat? I recommend preserving why duplicates reject the whole file, where commit revalidates the preview, and how verification checks for partial writes, so maintenance preserves the accepted import behavior."
 
 Use the existing import documentation and ticket, or the agreed brief without repository access. Keep this proportional: clarify the material contract rather than adding an essay, oral exam, or management ticket.
+
+## Team model and calendars
+
+**Input:** "We have one frontend engineer, one backend engineer, Matt as our AI engineer, and QA joining later. We use one ticket per specialty. Matt can carry two contexts; QA can carry five. Matt is away July 6 through July 17."
+
+Preserve that ticketing model and record one responsible role per ticket. Relate tickets by feature and investigate actual prerequisites rather than assuming frontend must always wait for backend. Use real names where supplied and role-based placeholders elsewhere. Keep QA capacity separate and add QA tickets only if requested for the plan. Record the joining date and vacation range, then size under that availability.
+
+Show a small dated dependency or capacity diagram before asking the next unresolved judgment question. For a target reduction, distinguish staffing delays from dependency and calendar limits. Do not round a supposed 1.5 tickets: use the agreed integer capacity.
+
+## Final output, not an interview form
+
+After the brief and backlog are agreed, populate the bundled planning template. The user can change a target date, inspect proposed staffing and constraints, open ticket details, export the complete CSV, and save the scenario as a standalone HTML file. Keep interview questions in the assistant conversation. If the user changes a working pattern, identify estimates that need review; saving the file is not human acceptance.

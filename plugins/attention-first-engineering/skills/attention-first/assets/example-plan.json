@@ -1,0 +1,457 @@
+{
+  "title": "Customer search",
+  "illustrative": true,
+  "startDate": "2026-10-05",
+  "targetDate": "2026-10-30",
+  "calendar": {
+    "workingDays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "holidays": [
+      "2026-10-12"
+    ]
+  },
+  "roles": [
+    {
+      "id": "fe",
+      "name": "Frontend",
+      "kind": "engineering",
+      "defaultCapacity": 3,
+      "people": [
+        {
+          "id": "fe-1",
+          "name": "Frontend 1",
+          "capacity": 3,
+          "workingDays": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "daysOff": [],
+          "timeOff": []
+        }
+      ]
+    },
+    {
+      "id": "be",
+      "name": "Backend",
+      "kind": "engineering",
+      "defaultCapacity": 3,
+      "people": [
+        {
+          "id": "be-1",
+          "name": "Backend 1",
+          "capacity": 3,
+          "workingDays": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "daysOff": [],
+          "timeOff": []
+        }
+      ]
+    },
+    {
+      "id": "ai",
+      "name": "AI engineer",
+      "kind": "engineering",
+      "defaultCapacity": 2,
+      "people": [
+        {
+          "id": "ai-1",
+          "name": "AI engineer 1",
+          "capacity": 2,
+          "workingDays": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "daysOff": [],
+          "timeOff": []
+        }
+      ]
+    },
+    {
+      "id": "product",
+      "name": "Product",
+      "kind": "support",
+      "defaultCapacity": 3,
+      "people": [
+        {
+          "id": "product-1",
+          "name": "Product 1",
+          "capacity": 3,
+          "workingDays": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "daysOff": [],
+          "timeOff": []
+        }
+      ]
+    },
+    {
+      "id": "qa",
+      "name": "QA",
+      "kind": "support",
+      "defaultCapacity": 5,
+      "people": [
+        {
+          "id": "qa-1",
+          "name": "QA 1",
+          "capacity": 5,
+          "workingDays": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "daysOff": [],
+          "timeOff": [],
+          "availableFrom": "2026-10-26"
+        }
+      ]
+    }
+  ],
+  "tickets": [
+    {
+      "id": "BE-101",
+      "title": "Search API",
+      "roleId": "be",
+      "feature": "Search foundation",
+      "size": "Week",
+      "dependsOn": [],
+      "outcome": "Authorized users can query matching customers through a stable API.",
+      "scope": [
+        "Deliver the agreed behavior using existing application patterns."
+      ],
+      "acceptance": [
+        "The user can complete this outcome with the agreed authorization rules."
+      ],
+      "verification": [
+        "Exercise the expected behavior and an important failure case."
+      ],
+      "understanding": "Understand the behavior, affected boundaries, and evidence needed to accept the result.",
+      "decisions": [],
+      "risks": [],
+      "sizeRationale": "Week: establish the API contract, authorization, queries, and behavioral checks, including review and merge."
+    },
+    {
+      "id": "AI-101",
+      "title": "Classify incoming requests",
+      "roleId": "ai",
+      "feature": "Independent AI improvements",
+      "size": "Week",
+      "dependsOn": [],
+      "outcome": "Classify incoming requests.",
+      "scope": [
+        "Deliver the agreed behavior using existing application patterns."
+      ],
+      "acceptance": [
+        "The user can complete this outcome with the agreed authorization rules."
+      ],
+      "verification": [
+        "Exercise the expected behavior and an important failure case."
+      ],
+      "understanding": "Understand the behavior, affected boundaries, and evidence needed to accept the result.",
+      "decisions": [],
+      "risks": []
+    },
+    {
+      "id": "AI-102",
+      "title": "Group customer topics",
+      "roleId": "ai",
+      "feature": "Independent AI improvements",
+      "size": "Week",
+      "dependsOn": [],
+      "outcome": "Group customer topics.",
+      "scope": [
+        "Deliver the agreed behavior using existing application patterns."
+      ],
+      "acceptance": [
+        "The user can complete this outcome with the agreed authorization rules."
+      ],
+      "verification": [
+        "Exercise the expected behavior and an important failure case."
+      ],
+      "understanding": "Understand the behavior, affected boundaries, and evidence needed to accept the result.",
+      "decisions": [],
+      "risks": []
+    },
+    {
+      "id": "AI-103",
+      "title": "Detect duplicate descriptions",
+      "roleId": "ai",
+      "feature": "Independent AI improvements",
+      "size": "Week",
+      "dependsOn": [],
+      "outcome": "Detect duplicate descriptions.",
+      "scope": [
+        "Deliver the agreed behavior using existing application patterns."
+      ],
+      "acceptance": [
+        "The user can complete this outcome with the agreed authorization rules."
+      ],
+      "verification": [
+        "Exercise the expected behavior and an important failure case."
+      ],
+      "understanding": "Understand the behavior, affected boundaries, and evidence needed to accept the result.",
+      "decisions": [],
+      "risks": []
+    },
+    {
+      "id": "AI-104",
+      "title": "Explain search queries",
+      "roleId": "ai",
+      "feature": "Independent AI improvements",
+      "size": "Week",
+      "dependsOn": [],
+      "outcome": "Explain search queries.",
+      "scope": [
+        "Deliver the agreed behavior using existing application patterns."
+      ],
+      "acceptance": [
+        "The user can complete this outcome with the agreed authorization rules."
+      ],
+      "verification": [
+        "Exercise the expected behavior and an important failure case."
+      ],
+      "understanding": "Understand the behavior, affected boundaries, and evidence needed to accept the result.",
+      "decisions": [],
+      "risks": []
+    },
+    {
+      "id": "AI-201",
+      "title": "Semantic retrieval",
+      "roleId": "ai",
+      "feature": "Ranked search",
+      "size": "Week",
+      "dependsOn": [
+        "BE-101"
+      ],
+      "outcome": "Semantic retrieval.",
+      "scope": [
+        "Deliver the agreed behavior using existing application patterns."
+      ],
+      "acceptance": [
+        "The user can complete this outcome with the agreed authorization rules."
+      ],
+      "verification": [
+        "Exercise the expected behavior and an important failure case."
+      ],
+      "understanding": "Understand the behavior, affected boundaries, and evidence needed to accept the result.",
+      "decisions": [],
+      "risks": []
+    },
+    {
+      "id": "AI-202",
+      "title": "Ranking controls",
+      "roleId": "ai",
+      "feature": "Ranked search",
+      "size": "Week",
+      "dependsOn": [
+        "AI-201"
+      ],
+      "outcome": "Ranking controls.",
+      "scope": [
+        "Deliver the agreed behavior using existing application patterns."
+      ],
+      "acceptance": [
+        "The user can complete this outcome with the agreed authorization rules."
+      ],
+      "verification": [
+        "Exercise the expected behavior and an important failure case."
+      ],
+      "understanding": "Understand the behavior, affected boundaries, and evidence needed to accept the result.",
+      "decisions": [],
+      "risks": []
+    },
+    {
+      "id": "FE-201",
+      "title": "Ranked search results",
+      "roleId": "fe",
+      "feature": "Ranked search",
+      "size": "Week",
+      "dependsOn": [
+        "AI-202"
+      ],
+      "outcome": "Ranked search results.",
+      "scope": [
+        "Deliver the agreed behavior using existing application patterns."
+      ],
+      "acceptance": [
+        "The user can complete this outcome with the agreed authorization rules."
+      ],
+      "verification": [
+        "Exercise the expected behavior and an important failure case."
+      ],
+      "understanding": "Understand the behavior, affected boundaries, and evidence needed to accept the result.",
+      "decisions": [],
+      "risks": []
+    },
+    {
+      "id": "FE-202",
+      "title": "Saved ranked searches",
+      "roleId": "fe",
+      "feature": "Ranked search",
+      "size": "Week",
+      "dependsOn": [
+        "FE-201"
+      ],
+      "outcome": "Saved ranked searches.",
+      "scope": [
+        "Deliver the agreed behavior using existing application patterns."
+      ],
+      "acceptance": [
+        "The user can complete this outcome with the agreed authorization rules."
+      ],
+      "verification": [
+        "Exercise the expected behavior and an important failure case."
+      ],
+      "understanding": "Understand the behavior, affected boundaries, and evidence needed to accept the result.",
+      "decisions": [],
+      "risks": []
+    },
+    {
+      "id": "BE-102",
+      "title": "Customer filters",
+      "roleId": "be",
+      "feature": "Search foundation",
+      "size": "Day",
+      "dependsOn": [
+        "BE-101"
+      ],
+      "outcome": "Customer filters.",
+      "scope": [
+        "Deliver the agreed behavior using existing application patterns."
+      ],
+      "acceptance": [
+        "The user can complete this outcome with the agreed authorization rules."
+      ],
+      "verification": [
+        "Exercise the expected behavior and an important failure case."
+      ],
+      "understanding": "Understand the behavior, affected boundaries, and evidence needed to accept the result.",
+      "decisions": [],
+      "risks": []
+    },
+    {
+      "id": "BE-103",
+      "title": "Filtered export API",
+      "roleId": "be",
+      "feature": "Filtered export",
+      "size": "Week",
+      "dependsOn": [
+        "BE-102"
+      ],
+      "outcome": "Filtered export API.",
+      "scope": [
+        "Deliver the agreed behavior using existing application patterns."
+      ],
+      "acceptance": [
+        "The user can complete this outcome with the agreed authorization rules."
+      ],
+      "verification": [
+        "Exercise the expected behavior and an important failure case."
+      ],
+      "understanding": "Understand the behavior, affected boundaries, and evidence needed to accept the result.",
+      "decisions": [],
+      "risks": []
+    },
+    {
+      "id": "FE-303",
+      "title": "Export filtered results",
+      "roleId": "fe",
+      "feature": "Filtered export",
+      "size": "Day",
+      "dependsOn": [
+        "BE-103"
+      ],
+      "outcome": "Users can download every matching customer as a CSV from the filtered results view.",
+      "scope": [
+        "Use the filtered export API.",
+        "Export all matching results, not only the current page."
+      ],
+      "acceptance": [
+        "The download preserves the selected filters.",
+        "Empty results produce a valid CSV with headers."
+      ],
+      "verification": [
+        "Compare exported rows with an independently specified filtered fixture.",
+        "Verify that a current-page-only implementation fails that comparison."
+      ],
+      "understanding": "How UI filters reach the export API and how failures are shown without losing the current search.",
+      "decisions": [
+        "The export covers the full filtered result set for reconciliation."
+      ],
+      "risks": [],
+      "sizeRationale": "Day: reuse the completed export API and existing download UI, with time for filter/error verification, review, and merge."
+    },
+    {
+      "id": "FE-101",
+      "title": "Customer list filters",
+      "roleId": "fe",
+      "feature": "Search foundation",
+      "size": "Day",
+      "dependsOn": [
+        "BE-102"
+      ],
+      "outcome": "Customer list filters.",
+      "scope": [
+        "Deliver the agreed behavior using existing application patterns."
+      ],
+      "acceptance": [
+        "The user can complete this outcome with the agreed authorization rules."
+      ],
+      "verification": [
+        "Exercise the expected behavior and an important failure case."
+      ],
+      "understanding": "Understand the behavior, affected boundaries, and evidence needed to accept the result.",
+      "decisions": [],
+      "risks": []
+    },
+    {
+      "id": "FE-102",
+      "title": "Remember search settings",
+      "roleId": "fe",
+      "feature": "Search foundation",
+      "size": "Day",
+      "dependsOn": [
+        "FE-101"
+      ],
+      "outcome": "Remember search settings.",
+      "scope": [
+        "Deliver the agreed behavior using existing application patterns."
+      ],
+      "acceptance": [
+        "The user can complete this outcome with the agreed authorization rules."
+      ],
+      "verification": [
+        "Exercise the expected behavior and an important failure case."
+      ],
+      "understanding": "Understand the behavior, affected boundaries, and evidence needed to accept the result.",
+      "decisions": [],
+      "risks": []
+    }
+  ],
+  "assumptions": [
+    "Illustrative engineering plan, not a delivery commitment.",
+    "Day/Week sizes assume the listed working patterns and concurrent workload.",
+    "Product and QA are team context only; no separate work for them is included."
+  ]
+}

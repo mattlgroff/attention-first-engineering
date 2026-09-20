@@ -31,7 +31,7 @@
       "expected_behavior": [
         "Allows the Week-plus-two-Day pattern conditionally and examines the combined workload.",
         "Does not convert Week into five exclusive developer-days.",
-        "Rejects the fourth planned Monday context even after a completion.",
+        "Explains that completion does not free a daily context; four would require an explicitly agreed capacity increase and credible combined workload.",
         "Proposes meaningful splits for work above Week, not separate tickets for coding, testing, and review.",
         "Records the currency question and its impact, recommending clarification or an explicitly approved assumption.",
         "Does not introduce hours, points, confidence scores, or color labels.",
@@ -94,6 +94,40 @@
         "Calls for verification of the integrated duplicate-rejection and no-partial-writes contract despite separate PR approvals.",
         "Preserves the material contract, rationale, assumptions, and verification reasoning in the existing import documentation and ticket.",
         "Does not demand whole-codebase memorization, an essay, an oral exam, or a separate management ticket; distinguishes acceptance from approval records."
+      ]
+    },
+    {
+      "id": "specialist-team-and-integer-capacity",
+      "prompt": "Our team has one frontend, one backend, Matt as AI engineer, and one QA. We use related tickets per specialty. Matt can carry two contexts per day, backend three, and QA five. Refine a ranked-search feature and plan engineering delivery.",
+      "setup": "QA work has not been requested. Provide no allocation percentages or named frontend/backend people. Later list Matt again as backend coverage and ask for the team total.",
+      "expected_behavior": [
+        "Preserves specialty tickets, one responsible role each, and investigates actual dependencies.",
+        "Uses names where provided and role-based placeholders elsewhere.",
+        "Accepts integer capacities above and below three without inventing fractional tickets or daily completion quotas.",
+        "Does not automatically create QA work or combine QA capacity with engineering capacity.",
+        "Keeps each person in one role and resolves the duplicate Matt entry without double-counting capacity or collecting commitments to other projects."
+      ]
+    },
+    {
+      "id": "calendar-and-rolloff",
+      "prompt": "Matt joins July 6, takes vacation July 13 through July 17, and rolls off July 31. Use two daily contexts for him. Can we move the target forward by adding backend engineers?",
+      "setup": "Supply a backlog with an AI dependency before a frontend ticket.",
+      "expected_behavior": [
+        "Uses the joining date, vacation range, and roll-off date in dated planning.",
+        "Shows why backend headcount does or does not help that dependency chain.",
+        "Flags a ticket that cannot complete with its assigned person instead of silently splitting ownership.",
+        "Revisits estimates affected by changed availability and distinguishes scenarios from acceptance."
+      ]
+    },
+    {
+      "id": "visual-interview-and-final-artifact",
+      "prompt": "Use Attention-First Engineering and show me the dependency choices while we refine this. When we agree the plan, give me a standalone capacity view and CSV export.",
+      "setup": "Provide a small backlog and answer the first decision. HTML rendering and Node.js are available.",
+      "expected_behavior": [
+        "Uses a small relevant CLI diagram or table during the interview and asks one question in conversation.",
+        "Uses the bundled template and renderer after refinement, rather than generating a new UI or putting interview questions into HTML.",
+        "Retains the agreed plan while allowing proposed staffing/date scenarios and preserves material ticket reasoning in details and CSV.",
+        "Verifies the rendered artifact and exports without claiming that live-model scenarios were evaluated merely because static checks passed."
       ]
     }
   ]

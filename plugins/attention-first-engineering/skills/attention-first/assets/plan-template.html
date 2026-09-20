@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Attention-First Engineering</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #19213a;
+        --muted: #647089;
+        --line: #e4e8f0;
+        --purple: #6e48eb;
+        --purple-soft: #f1edff;
+        --amber: #926015;
+        --amber-bg: #fff5e2;
+        --bg: #f8f9fc;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+        color: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      button,
+      input,
+      select,
+      textarea {
+        border: 1px solid #d9dfeb;
+        border-radius: 6px;
+        background: #fff;
+        padding: 7px 10px;
+      }
+      button:hover {
+        background: #f4f1ff;
+        border-color: #c7baf5;
+      }
+      button:disabled {
+        opacity: 0.45;
+        cursor: default;
+      }
+      button:focus-visible,
+      a:focus-visible,
+      input:focus-visible,
+      select:focus-visible,
+      textarea:focus-visible {
+        outline: 3px solid #a68cf6;
+        outline-offset: 2px;
+      }
+      a {
+        color: #6440dc;
+      }
+      button.primary {
+        background: var(--purple);
+        color: #fff;
+        border-color: var(--purple);
+      }
+      button.quiet {
+        border: 0;
+        background: transparent;
+        color: #6440dc;
+        padding: 3px 0;
+      }
+      .topbar {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-height: 60px;
+        padding: 12px 24px;
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+      }
+      .brand {
+        font-size: 16px;
+        font-weight: 700;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .mark {
+        width: 22px;
+        height: 22px;
+        color: var(--purple);
+      }
+      .project-crumb {
+        color: var(--muted);
+        border-left: 1px solid var(--line);
+        padding-left: 14px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .top-actions {
+        margin-left: auto;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .badge {
+        font-size: 11px;
+        background: #f1f4f9;
+        border: 1px solid var(--line);
+        padding: 2px 7px;
+        border-radius: 4px;
+        color: #526079;
+        white-space: nowrap;
+      }
+      .intro {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        padding: 22px 24px 12px;
+      }
+      h1 {
+        font-size: 28px;
+        line-height: 1.2;
+        letter-spacing: -0.8px;
+        margin: 0 0 5px;
+      }
+      h2 {
+        font-size: 16px;
+        margin: 0;
+        letter-spacing: -0.2px;
+      }
+      h3 {
+        font-size: 13px;
+        margin: 0 0 10px;
+      }
+      .subtitle,
+      .muted {
+        color: var(--muted);
+      }
+      .subtitle {
+        margin: 0;
+      }
+      .scenario-strip {
+        display: flex;
+        align-items: center;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 12px 16px;
+        gap: 18px;
+      }
+      .metric {
+        min-width: 110px;
+        border-right: 1px solid var(--line);
+        padding-right: 18px;
+      }
+      .metric:last-of-type {
+        border: 0;
+      }
+      .metric small {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+        margin-bottom: 3px;
+      }
+      .metric strong {
+        font-size: 18px;
+      }
+      .metric input {
+        padding: 3px 5px;
+        max-width: 144px;
+      }
+      .status {
+        font-size: 12px;
+        font-weight: 600;
+        padding: 6px 9px;
+        border-radius: 5px;
+        background: var(--purple-soft);
+        color: #5834c9;
+      }
+      .status.amber {
+        background: var(--amber-bg);
+        color: var(--amber);
+      }
+      .tabs {
+        padding: 0 24px;
+        display: flex;
+        gap: 24px;
+        border-bottom: 1px solid var(--line);
+        background: var(--bg);
+      }
+      .tabs button {
+        padding: 12px 0;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        color: var(--muted);
+      }
+      .tabs button[aria-selected="true"] {
+        color: #6440dc;
+        box-shadow: inset 0 -2px #7950ec;
+        font-weight: 600;
+      }
+      .notice {
+        margin: 14px 24px;
+        padding: 12px 16px;
+        background: var(--amber-bg);
+        border: 1px solid #eed7a9;
+        border-radius: 8px;
+        color: #785011;
+      }
+      .notice:empty {
+        display: none;
+      }
+      .workspace {
+        padding: 16px 18px 24px;
+      }
+      .capacity-layout {
+        display: grid;
+        grid-template-columns: 214px minmax(0, 1fr) 264px;
+        gap: 14px;
+        align-items: start;
+      }
+      .panel {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .panel-heading {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        justify-content: space-between;
+        padding: 16px 18px;
+        border-bottom: 1px solid var(--line);
+      }
+      .team-panel {
+        padding: 18px 16px;
+      }
+      .team-panel h2 {
+        margin-bottom: 20px;
+      }
+      .role-block {
+        margin: 16px 0;
+      }
+      .role-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        font-size: 12px;
+      }
+      .dot {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 100%;
+        flex-shrink: 0;
+        background: var(--role, #8461ec);
+      }
+      .role-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px 0;
+      }
+      .stepper {
+        display: flex;
+        gap: 7px;
+        align-items: center;
+      }
+      .stepper button {
+        padding: 1px 7px;
+        background: #f6f7fb;
+      }
+      .stepper output {
+        min-width: 18px;
+        text-align: center;
+        font-weight: 600;
+      }
+      .person-line {
+        font-size: 11px;
+        color: var(--muted);
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        margin: 6px 0;
+      }
+      .team-section {
+        border-top: 1px solid var(--line);
+        padding-top: 14px;
+        margin-top: 16px;
+      }
+      .small {
+        font-size: 11px;
+      }
+      .helper {
+        color: var(--muted);
+        font-size: 12px;
+        margin: 9px 0;
+      }
+      .schedule-stack {
+        min-width: 0;
+        display: grid;
+        gap: 14px;
+      }
+      .chart-wrap {
+        overflow-x: auto;
+        position: relative;
+      }
+      .timeline {
+        position: relative;
+        isolation: isolate;
+        min-width: calc(165px + var(--days) * 17px);
+      }
+      .grid-row {
+        display: grid;
+        grid-template-columns: 165px repeat(var(--days), minmax(17px, 1fr));
+        position: relative;
+      }
+      .week-head {
+        height: 42px;
+        border-bottom: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 11px;
+        background: #fff;
+      }
+      .week-head .week {
+        grid-row: 1;
+        padding: 10px 6px;
+        border-left: 1px solid var(--line);
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      .week-head .row-label {
+        padding: 12px;
+      }
+      .role-heading {
+        font-weight: 600;
+        padding: 12px 15px 7px;
+        background: #fbfcfe;
+        border-top: 1px solid var(--line);
+        position: sticky;
+        left: 0;
+      }
+      .person-row {
+        min-height: var(--height);
+        background: repeating-linear-gradient(
+          to right,
+          transparent,
+          transparent calc((100% - 165px) / var(--days) - 1px),
+          #edf0f6 calc((100% - 165px) / var(--days) - 1px),
+          #edf0f6 calc((100% - 165px) / var(--days))
+        );
+        background-position: 165px 0;
+        background-size: calc(100% - 165px) 100%;
+        background-repeat: no-repeat;
+      }
+      .person-label {
+        grid-column: 1;
+        grid-row: 1 / span var(--lanes);
+        align-self: stretch;
+        padding: 12px 14px;
+        color: var(--muted);
+        font-size: 11px;
+        background: white;
+        z-index: 3;
+        border-right: 1px solid var(--line);
+        position: sticky;
+        left: 0;
+      }
+      .bar {
+        min-width: 0;
+        text-align: left;
+        align-self: center;
+        height: 29px;
+        font-size: 11px;
+        padding: 4px 6px;
+        border: 1px solid color-mix(in srgb, var(--role) 35%, white);
+        background: color-mix(in srgb, var(--role) 12%, white);
+        color: #24304a;
+        border-radius: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        z-index: 2;
+        margin: 3px 2px;
+        box-shadow: 0 1px 0 #00000003;
+      }
+      .bar:hover {
+        background: color-mix(in srgb, var(--role) 23%, white);
+      }
+      .bar strong {
+        font-size: 10px;
+        margin-right: 5px;
+      }
+      .bar.critical {
+        border-color: color-mix(in srgb, var(--role) 55%, white);
+      }
+      .target-line {
+        position: absolute;
+        top: 42px;
+        bottom: 0;
+        border-left: 2px dashed #d79835;
+        z-index: 4;
+        pointer-events: none;
+      }
+      .target-line span {
+        position: absolute;
+        bottom: 100%;
+        left: -65px;
+        background: #fff;
+        padding: 2px 5px;
+        font-size: 10px;
+        color: #9b641a;
+        white-space: nowrap;
+      }
+      .dependencies {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+      }
+      .legend {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        padding: 10px 16px;
+        color: var(--muted);
+        font-size: 11px;
+        border-top: 1px solid var(--line);
+      }
+      .legend b {
+        font-weight: 500;
+        color: #6044a6;
+      }
+      .heatmap {
+        overflow: auto;
+      }
+      .heat-grid {
+        display: grid;
+        grid-template-columns: 165px repeat(var(--days), minmax(17px, 1fr));
+        min-width: calc(165px + var(--days) * 17px);
+        font-size: 10px;
+      }
+      .heat-label {
+        padding: 8px 12px;
+        position: sticky;
+        left: 0;
+        background: #fff;
+      }
+      .heat-cell {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 32px;
+        border-left: 1px solid white;
+        border-bottom: 1px solid white;
+        color: #6244a7;
+      }
+      .heat-date {
+        color: var(--muted);
+        font-size: 9px;
+        background: #fafbfe;
+      }
+      .heat-off {
+        background: #f1f3f6;
+        color: #aeb6c6;
+      }
+      .insights {
+        padding: 18px 16px;
+      }
+      .insights h2 {
+        margin-bottom: 20px;
+      }
+      .delta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        font-size: 12px;
+        margin: 9px 0;
+      }
+      .callout {
+        border: 1px solid #f2dfbc;
+        background: var(--amber-bg);
+        border-radius: 7px;
+        padding: 13px;
+        margin: 18px 0;
+        color: #654516;
+      }
+      .callout h3 {
+        margin-bottom: 7px;
+      }
+      .callout p {
+        margin: 0;
+        font-size: 12px;
+      }
+      .chain {
+        margin: 10px 0 18px;
+        padding: 0;
+        list-style: none;
+      }
+      .chain li {
+        font-size: 11px;
+        padding: 7px 0;
+      }
+      .chain li + li:before {
+        content: "↓";
+        display: block;
+        color: var(--muted);
+        padding-bottom: 4px;
+      }
+      .chain button {
+        border: 0;
+        padding: 0;
+        text-align: left;
+        background: none;
+        font-size: 11px;
+      }
+      .insights ul.notes {
+        font-size: 11px;
+        padding-left: 16px;
+        color: var(--muted);
+      }
+      .insights .primary {
+        width: 100%;
+        font-size: 12px;
+      }
+      .divider {
+        border: 0;
+        border-top: 1px solid var(--line);
+        margin: 18px 0;
+      }
+      .footnote {
+        padding: 0 20px 18px;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .backlog-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+        align-items: start;
+      }
+      .backlog-layout.has-detail {
+        grid-template-columns: minmax(0, 1fr) 360px;
+      }
+      .backlog-toolbar {
+        display: flex;
+        gap: 10px;
+        padding: 14px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .backlog-toolbar input {
+        min-width: 150px;
+        flex: 1;
+      }
+      .backlog-toolbar .total {
+        margin-left: auto;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .table-wrap {
+        overflow: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 12px;
+      }
+      th {
+        color: var(--muted);
+        font-weight: 500;
+        font-size: 11px;
+        padding: 11px 14px;
+        background: #fbfcfe;
+        white-space: nowrap;
+      }
+      td {
+        padding: 13px 14px;
+        border-top: 1px solid #edf0f5;
+      }
+      tr.feature td {
+        font-weight: 650;
+        background: #fbfcfe;
+        padding: 12px 14px;
+      }
+      tr.selected td {
+        background: var(--purple-soft);
+      }
+      .ticket-open {
+        border: 0;
+        padding: 0;
+        background: none;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 12px;
+      }
+      .ticket-id {
+        font-size: 10px;
+        white-space: nowrap;
+        border: 1px solid var(--line);
+        background: #f4f6fb;
+        border-radius: 4px;
+        padding: 3px 6px;
+        font-weight: 600;
+      }
+      .size {
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        background: #fafbff;
+        padding: 2px 6px;
+        font-size: 11px;
+        white-space: nowrap;
+      }
+      .role-cell {
+        display: flex;
+        gap: 7px;
+        align-items: center;
+        white-space: nowrap;
+      }
+      .ticket-detail {
+        padding: 22px;
+        position: sticky;
+        top: 16px;
+        max-height: calc(100vh - 32px);
+        overflow: auto;
+      }
+      .detail-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .ticket-detail h2 {
+        font-size: 23px;
+        letter-spacing: -0.5px;
+        line-height: 1.25;
+        margin: 15px 0 5px;
+      }
+      .properties {
+        display: grid;
+        grid-template-columns: 125px 1fr;
+        gap: 8px;
+        font-size: 12px;
+        margin: 22px 0;
+      }
+      .properties dt {
+        color: var(--muted);
+      }
+      .properties dd {
+        margin: 0;
+      }
+      .detail-section {
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+        margin-top: 18px;
+        font-size: 12px;
+      }
+      .detail-section h3 {
+        font-size: 13px;
+      }
+      .detail-section p {
+        margin: 5px 0;
+      }
+      .detail-section ul {
+        padding-left: 16px;
+        margin: 6px 0;
+      }
+      .detail-section li {
+        margin: 5px 0;
+      }
+      .empty {
+        padding: 30px;
+        color: var(--muted);
+        text-align: center;
+      }
+      .filter-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .filter-row input {
+        accent-color: var(--purple);
+      }
+      dialog {
+        width: min(860px, 94vw);
+        max-height: 90vh;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 0;
+        color: var(--ink);
+        box-shadow: 0 24px 90px #17214526;
+      }
+      dialog::backdrop {
+        background: #20283f66;
+      }
+      dialog .dialog-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 22px;
+        border-bottom: 1px solid var(--line);
+      }
+      dialog .dialog-body {
+        padding: 18px 22px;
+        overflow: auto;
+        max-height: 65vh;
+      }
+      .calendar-fields {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+      .field {
+        display: block;
+        margin-bottom: 16px;
+        font-size: 12px;
+      }
+      .field > span {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      .field input,
+      .field textarea {
+        width: 100%;
+      }
+      .field textarea {
+        min-height: 86px;
+        resize: vertical;
+      }
+      .days {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .days label {
+        font-size: 11px;
+        display: flex;
+        align-items: center;
+        gap: 3px;
+      }
+      .days input {
+        width: auto;
+        accent-color: var(--purple);
+      }
+      .person-edit {
+        display: grid;
+        grid-template-columns: minmax(130px, 1fr) 90px 1.5fr;
+        gap: 12px;
+        border-top: 1px solid var(--line);
+        padding-top: 15px;
+        margin-top: 12px;
+      }
+      .person-edit .field {
+        margin-bottom: 5px;
+      }
+      .person-edit .exceptions {
+        grid-column: 1/-1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .dialog-footer {
+        padding: 14px 22px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        border-top: 1px solid var(--line);
+      }
+      .error {
+        color: #b02a35;
+        font-size: 12px;
+      }
+      .notice ul {
+        margin: 5px 0;
+        padding-left: 20px;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      @media (max-width: 1200px) {
+        .capacity-layout {
+          grid-template-columns: 190px minmax(0, 1fr) 230px;
+        }
+        .intro {
+          align-items: flex-start;
+        }
+        .scenario-strip {
+          gap: 10px;
+          padding: 10px;
+        }
+        .metric {
+          min-width: 85px;
+          padding-right: 10px;
+        }
+        .backlog-layout.has-detail {
+          grid-template-columns: minmax(0, 1fr) 320px;
+        }
+        .brand {
+          font-size: 14px;
+        }
+        .project-crumb {
+          max-width: 160px;
+        }
+        .badge {
+          display: none;
+        }
+      }
+      @media (max-width: 980px) {
+        .intro {
+          flex-direction: column;
+        }
+        .scenario-strip {
+          width: 100%;
+          justify-content: space-between;
+        }
+        .capacity-layout {
+          grid-template-columns: 180px minmax(0, 1fr);
+        }
+        .insights {
+          grid-column: 1/-1;
+        }
+        .backlog-layout.has-detail {
+          grid-template-columns: 1fr;
+        }
+        .ticket-detail {
+          position: fixed;
+          z-index: 10;
+          top: 10px;
+          right: 10px;
+          bottom: 10px;
+          width: min(440px, 95vw);
+          max-height: none;
+          box-shadow: 0 0 0 100vmax #1a22495c;
+        }
+        .topbar {
+          flex-wrap: wrap;
+        }
+        .project-crumb {
+          display: none;
+        }
+      }
+      @media (max-width: 640px) {
+        .topbar {
+          padding: 12px;
+        }
+        .top-actions {
+          width: 100%;
+          margin: 0;
+        }
+        .top-actions button {
+          flex: 1;
+          font-size: 12px;
+        }
+        .intro {
+          padding: 18px 14px 8px;
+        }
+        h1 {
+          font-size: 24px;
+        }
+        .scenario-strip {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+        }
+        .metric {
+          border: 0;
+        }
+        .metric strong {
+          font-size: 16px;
+        }
+        .tabs {
+          padding: 0 14px;
+        }
+        .workspace {
+          padding: 12px;
+        }
+        .capacity-layout {
+          display: flex;
+          flex-direction: column;
+        }
+        .team-panel,
+        .schedule-stack,
+        .insights {
+          width: 100%;
+        }
+        .team-panel {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px 20px;
+        }
+        .team-panel h2,
+        .team-panel > .helper,
+        .team-panel > .quiet,
+        .team-section {
+          grid-column: 1/-1;
+        }
+        .role-block {
+          margin: 3px 0;
+        }
+        .team-panel h2 {
+          margin-bottom: 3px;
+        }
+        .calendar-fields,
+        .person-edit {
+          grid-template-columns: 1fr;
+        }
+        .person-edit .exceptions {
+          grid-template-columns: 1fr;
+        }
+        .backlog-toolbar {
+          padding: 10px;
+        }
+        .panel-heading {
+          padding: 14px;
+          flex-wrap: wrap;
+        }
+        .subtitle {
+          font-size: 12px;
+        }
+        .footnote {
+          font-size: 10px;
+        }
+        .notice {
+          margin: 12px;
+        }
+      }
+      @media print {
+        .top-actions,
+        .tabs,
+        .team-panel button,
+        .filter-row,
+        .scenario-strip input,
+        .backlog-toolbar,
+        dialog {
+          display: none !important;
+        }
+        .capacity-layout {
+          display: block;
+        }
+        .insights {
+          break-before: page;
+        }
+        .panel {
+          overflow: visible;
+          margin-bottom: 16px;
+        }
+        .chart-wrap,
+        .heatmap {
+          overflow: visible;
+        }
+        .ticket-detail {
+          position: static;
+          max-height: none;
+        }
+        .timeline,
+        .heat-grid {
+          min-width: 0;
+        }
+        .topbar {
+          position: static;
+        }
+        .status {
+          border: 1px solid;
+        }
+        .workspace {
+          padding: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <svg class="mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M12 2 22 21H2L12 2Z"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linejoin="round"
+          />
+          <path
+            d="m7 17 5-9 5 9M10 17h4"
+            stroke="currentColor"
+            stroke-width="2"
+          /></svg
+        >Attention-First Engineering
+      </div>
+      <div id="projectCrumb" class="project-crumb"></div>
+      <div class="top-actions">
+        <span id="planBadge" class="badge">Planning artifact</span
+        ><button
+          id="exportCsv"
+          title="Export the complete backlog with this scenario's schedule"
+        >
+          ↓ Export CSV</button
+        ><button id="saveHtml" class="primary">↓ Save HTML</button>
+      </div>
+    </header>
+    <section class="intro">
+      <div>
+        <h1 id="pageTitle">Capacity &amp; timeline</h1>
+        <p id="pageSubtitle" class="subtitle">
+          Explore the team and sequencing needed for this scope.
+        </p>
+      </div>
+      <div class="scenario-strip">
+        <div class="metric">
+          <small>Agreed plan</small><strong id="baselineFinish"></strong>
+        </div>
+        <div class="metric">
+          <label
+            ><small>Target date</small
+            ><input id="targetDate" type="date" aria-label="Target date"
+          /></label>
+        </div>
+        <div class="metric">
+          <small>Proposed finish</small><strong id="proposedFinish"></strong>
+        </div>
+        <span id="scenarioStatus" class="status"></span>
+      </div>
+    </section>
+    <nav class="tabs" role="tablist" aria-label="Plan views">
+      <button
+        role="tab"
+        id="capacityTab"
+        aria-controls="capacityView"
+        aria-selected="true"
+      >
+        Capacity &amp; timeline</button
+      ><button
+        role="tab"
+        id="backlogTab"
+        aria-controls="backlogView"
+        aria-selected="false"
+      >
+        Backlog
+      </button>
+    </nav>
+    <div id="notice" class="notice" role="status" aria-live="polite"></div>
+    <main class="workspace">
+      <section
+        id="capacityView"
+        role="tabpanel"
+        aria-labelledby="capacityTab"
+        class="capacity-layout"
+      >
+        <aside id="teamPanel" class="panel team-panel"></aside>
+        <div class="schedule-stack">
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Proposed schedule</h2>
+              <label class="filter-row"
+                ><input id="showDependencies" type="checkbox" checked />Show
+                dependencies</label
+              >
+            </div>
+            <div id="chartWrap" class="chart-wrap">
+              <div id="timeline" class="timeline"></div>
+            </div>
+            <div class="legend">
+              <b>Day / Week</b><span>One responsible role per ticket</span
+              ><span id="calendarNote"></span>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Daily ticket contexts</h2>
+              <span class="small muted"
+                >Actual count against each person's agreed capacity</span
+              >
+            </div>
+            <div id="heatmap" class="heatmap"></div>
+          </section>
+        </div>
+        <aside id="insights" class="panel insights"></aside>
+      </section>
+      <section
+        id="backlogView"
+        role="tabpanel"
+        aria-labelledby="backlogTab"
+        class="backlog-layout"
+        hidden
+      >
+        <div class="panel">
+          <div class="backlog-toolbar">
+            <input
+              id="search"
+              type="search"
+              placeholder="Search tickets"
+              aria-label="Search tickets"
+            /><select id="roleFilter" aria-label="Filter by role"></select
+            ><select id="featureFilter" aria-label="Filter by feature"></select
+            ><span id="ticketCount" class="total"></span>
+          </div>
+          <div id="backlogTable" class="table-wrap"></div>
+        </div>
+        <aside id="ticketDetail" class="panel ticket-detail" hidden></aside>
+      </section>
+    </main>
+    <footer class="footnote">
+      Engineering completion includes understanding, refinement, testing, human
+      review and merge. Scenario calculations support human judgment; they do
+      not establish acceptance.
+    </footer>
+    <dialog id="teamDialog" aria-labelledby="teamDialogTitle">
+      <form id="teamForm">
+        <div class="dialog-head">
+          <h2 id="teamDialogTitle">Team &amp; calendar</h2>
+          <button type="button" id="closeTeam" aria-label="Close team editor">
+            ×
+          </button>
+        </div>
+        <div id="teamEditor" class="dialog-body"></div>
+        <div class="dialog-footer">
+          <span id="teamError" class="error" role="alert"></span
+          ><button type="button" id="cancelTeam">Cancel</button
+          ><button class="primary" type="submit">Apply to scenario</button>
+        </div>
+      </form>
+    </dialog>
+    <script id="plan-data" type="application/json">
+      __PLAN_DATA__
+    </script>
+    <script>
+      /*__PLANNER_CORE__*/
+    </script>
+    <script>
+      /*__PLANNER_UI__*/
+    </script>
+  </body>
+</html>

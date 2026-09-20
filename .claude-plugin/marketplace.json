@@ -7,8 +7,8 @@
     {
       "name": "attention-first-engineering",
       "source": "./plugins/attention-first-engineering",
-      "description": "Day/Week engineering refinement and capacity planning that protects human judgment.",
-      "version": "1.0.0",
+      "description": "Visual Day/Week engineering refinement and capacity planning that protects human judgment.",
+      "version": "1.1.0",
       "author": {
         "name": "Matthew Groff",
         "url": "https://github.com/mattlgroff"
